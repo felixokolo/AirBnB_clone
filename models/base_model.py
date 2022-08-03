@@ -25,8 +25,7 @@ class BaseModel:
                     continue
                 if (k == 'updated_at' or k == 'created_at'):
                     v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
-                else:
-                    exec("self." + k + " = v")
+                exec("self." + k + " = v")
 
     #@property
     def __str__(self):
