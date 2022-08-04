@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """File storage engine"""
 import json
-#from models.base_model import BaseModel
+from models.base_model import BaseModel
 
 class FileStorage:
     """serializes instances to a JSON file and
@@ -23,12 +23,12 @@ class FileStorage:
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
-        self.__objects[type(obj).__name__ + "." + obj.id] = obj
+        FileStorage.__objects[type(obj).__name__ + "." + obj.id] = obj
 
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-        dic = {k : v.to_dict() for k, v in self.__objects.items()}
+        dic = {k : v.to_dict() for k, v in FileStorage.__objects.items()}
         with open(self.__file_path, "w") as f:
             json.dump(dic, f)
  
@@ -42,7 +42,7 @@ class FileStorage:
             with open(self.__file_path, "r") as f:
                 dic = json.load(f)
                 for k, v in dic.items():
-                    self.__objects[k] = exec(k.split('.')[0] + "(*v)")
+                    FileStorage.__objects[k] = eval(k.split('.')[0])(**v)
         except Exception as e:
             print(e)
             pass

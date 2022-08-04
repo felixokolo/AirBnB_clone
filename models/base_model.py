@@ -2,7 +2,8 @@
 """Base model package"""
 import uuid
 from datetime import datetime
-storage = __import__('models.__init__').storage
+#storage = __import__('models.__init__').storage
+import models
 class BaseModel:
     """Base model class
     """
@@ -20,7 +21,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            models.storage.new(self)
         else:
             for k, v in kwargs.items():
                 if (k == '__class__'):
@@ -39,7 +40,7 @@ class BaseModel:
         """ updates the public instance attribute updated_at with the
         current datetime"""
         #self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__
