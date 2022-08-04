@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """File storage engine"""
 import json
-from models.base_model import BaseModel
+#from models.base_model import BaseModel
 
 class FileStorage:
     """serializes instances to a JSON file and
