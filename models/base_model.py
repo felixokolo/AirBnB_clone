@@ -27,7 +27,9 @@ class BaseModel:
                 if (k == '__class__'):
                     continue
                 if (k == 'updated_at' or k == 'created_at'):
-                    v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
+                    new_time = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
+                    exec("self." + k + " = new_time")
+                    continue
                 exec("self." + k + " = v")
 
     #@property
@@ -49,13 +51,13 @@ class BaseModel:
         ret = self.__dict__
         ret['created_at'] = self.created_at.isoformat()
         ret['updated_at'] = self.updated_at.isoformat()
-        ret['__class__'] = type(self).__name__
+        #ret['__class__'] = type(self).__name__
         return ret
 
-if __name__ == "__main__":
-    new = BaseModel()
-    print(new)
-    print(new.id)
-    print(new.created_at)
-    print(new.updated_at)
-    print(new.__str__)
+# if __name__ == "__main__":
+    # new = BaseModel()
+    # print(new)
+    # print(new.id)
+    # print(new.created_at)
+    # print(new.updated_at)
+    # print(new.__str__)

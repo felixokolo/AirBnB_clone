@@ -44,7 +44,6 @@ class FileStorage:
                 for k, v in dic.items():
                     FileStorage.__objects[k] = eval(k.split('.')[0])(**v)
         except Exception as e:
-            print(e)
             pass
         
  
