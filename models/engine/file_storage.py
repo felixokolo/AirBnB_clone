@@ -1,7 +1,9 @@
 #!/usr/bin/python
 """File storage engine"""
+
 import json
 from models.base_model import BaseModel
+from models.user import User
 
 class FileStorage:
     """serializes instances to a JSON file and
@@ -28,9 +30,9 @@ class FileStorage:
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-        dic = {k : v.to_dict() for k, v in FileStorage.__objects.items()}
+        dics = {k : v.to_dict() for k, v in FileStorage.__objects.items()}
         with open(self.__file_path, "w") as f:
-            json.dump(dic, f)
+            json.dump(dics, f)
  
  
     def reload(self):

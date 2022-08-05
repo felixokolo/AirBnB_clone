@@ -2,6 +2,7 @@
 """Console interpreter"""
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 import models
 
 class HBNBCommand(cmd.Cmd):
@@ -51,10 +52,9 @@ class HBNBCommand(cmd.Cmd):
         else:
             parsed = args.split()
             objs = models.storage.all()
-            for obj in objs.keys():
-                if (parsed[0] == obj.split(".")[0]):
-                    break
-            else:
+            try:
+                eval(parsed[0] + ".__class__")
+            except NameError:
                 print("** class doesn't exist **")
                 return
             if (len(parsed) < 2):
@@ -77,10 +77,9 @@ class HBNBCommand(cmd.Cmd):
         else:
             parsed = args.split()
             objs = models.storage.all()
-            for obj in objs.keys():
-                if (parsed[0] == obj.split(".")[0]):
-                    break
-            else:
+            try:
+                eval(parsed[0] + ".__class__")
+            except NameError:
                 print("** class doesn't exist **")
                 return
             if (len(parsed) < 2):
@@ -105,13 +104,49 @@ class HBNBCommand(cmd.Cmd):
             parsed = args.split()
             objs = models.storage.all()
             printed = 0
+            try:
+                eval(parsed[0] + ".__class__")
+            except NameError:
+                print("** class doesn't exist **")
+                return
             for obj in objs.keys():
                 if (parsed[0] == obj.split(".")[0]):
                     print(models.storage.all()[obj])
-            else:
-                if (printed == 0):
-                    print("** class doesn't exist **")
 
+
+    def do_update(self, args):
+        """Updates an instance based on the class name
+        and id by adding or updating attribute (save the
+        change into the JSON file).
+        Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com".
+        """
+
+        if (args == ""):
+                print("** class name missing **")
+        else:
+            pars = args.split('"')
+            parsed = [parsed.extend(p.split()) for p in pars]
+            objs = models.storage.all()
+            try:
+                eval(parsed[0] + ".__class__")
+            except NameError:
+                print("** class doesn't exist **")
+                return
+            if (len(parsed) < 2):
+                print("** instance id missing **")
+                return
+            got = objs.get(parsed[0] + "." + parsed[1])
+            if (got == None):
+                print("** no instance found **")
+                return
+            if (len(parsed) < 3):
+                print("** attribute name missing **")
+                return
+            if (len(parsed) < 4):
+                print("** value missing **")
+                return
+            exec("attr = got." + parsed[2] + " = " + parsed[3])
+                
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
