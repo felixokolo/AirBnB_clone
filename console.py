@@ -2,7 +2,7 @@
 """Console interpreter"""
 import cmd
 from models.base_model import BaseModel
-
+import models
 
 class HBNBCommand(cmd.Cmd):
     """Interpreter class"""
@@ -31,13 +31,41 @@ class HBNBCommand(cmd.Cmd):
         the id. Ex: $ create BaseModel"""
         if (args == ""):
             print("** class name missing **")
-        try:
-            exec("newss = " + args.split()[0] + "()")
-            new = BaseModel()
-        except NameError:
-            print("** class doesn't exist **")
-        new.save()
-        print(new.id)
+        else:
+            try:
+                new = eval(args.split()[0])()
+            except NameError:
+                print("** class doesn't exist **")
+            else:
+                new.save()
+                print(new.id)
+
+
+    def do_show(self, args):
+        """Prints the string representation of an
+        instance based on the class name and id.
+        Ex: $ show BaseModel 1234-1234-1234."""
+
+        if (args == ""):
+            print("** class name missing **")
+        else:
+            parsed = args.split()
+            objs = models.storage.all()
+            for obj in objs.keys():
+                if parsed[0] in obj:
+                    break
+            else:
+                print("** class doesn't exist **")
+                return
+            if (len(parsed) < 2):
+                print("** instance id missing **")
+                return
+            got = objs.get(parsed[0] + "." + parsed[1])
+            if (got == None):
+                print("** no instance found **")
+            else:
+                print(got)
+    
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
