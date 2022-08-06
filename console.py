@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             try:
                 new = eval(args.split()[0])()
-            except NameError:
+            except Exception:
                 print("** class doesn't exist **")
             else:
                 new.save()
@@ -54,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
             objs = models.storage.all()
             try:
                 eval(parsed[0] + ".__class__")
-            except NameError:
+            except Exception:
                 print("** class doesn't exist **")
                 return
             if (len(parsed) < 2):
@@ -79,7 +79,7 @@ class HBNBCommand(cmd.Cmd):
             objs = models.storage.all()
             try:
                 eval(parsed[0] + ".__class__")
-            except NameError:
+            except Exception:
                 print("** class doesn't exist **")
                 return
             if (len(parsed) < 2):
@@ -106,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
             printed = 0
             try:
                 eval(parsed[0] + ".__class__")
-            except NameError:
+            except Exception:
                 print("** class doesn't exist **")
                 return
             for obj in objs.keys():
@@ -129,7 +129,7 @@ class HBNBCommand(cmd.Cmd):
             objs = models.storage.all()
             try:
                 eval(parsed[0] + ".__class__")
-            except NameError:
+            except Exception:
                 print("** class doesn't exist **")
                 return
             if (len(parsed) < 2):
