@@ -10,6 +10,8 @@ from models.place import Place
 from models.review import Review
 import models
 
+import re
+
 class HBNBCommand(cmd.Cmd):
     """Interpreter class"""
     
@@ -129,8 +131,8 @@ class HBNBCommand(cmd.Cmd):
         if (args == ""):
                 print("** class name missing **")
         else:
-            pars = args.split('"')
-            parsed = [parsed.extend(p.split()) for p in pars]
+            parsed = parse_args(args)
+            print(parsed)
             objs = models.storage.all()
             try:
                 eval(parsed[0] + ".__class__")
@@ -151,7 +153,20 @@ class HBNBCommand(cmd.Cmd):
                 print("** value missing **")
                 return
             exec("attr = got." + parsed[2] + " = " + parsed[3])
-                
+
+
+def parse_args(args):
+    """parse args to list of arguments"""
+    ret = []
+    if '"' in args:
+        at = re.search('"(\w*|.*)"', args)
+        found = args[at.start():]
+        remain = args[:at.start()]
+        ret = remain.split()
+        ret.append(found)
+    else:
+        ret = args.split()
+    return ret
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
