@@ -116,6 +116,29 @@ class HBNBCommand(cmd.Cmd):
                 if (parsed[0] == obj.split(".")[0]):
                     print(models.storage.all()[obj])
 
+    def do_count(self, args):
+        """ counts all string representation of all
+        instances based or not on the class name.
+        Ex: $ count BaseModel or $ all."""
+
+        cnt = 0
+        if (args == ""):
+            print(len(models.storage.all()))
+        else:
+            parsed = args.split()
+            objs = models.storage.all()
+            printed = 0
+            try:
+                eval(parsed[0] + ".__class__")
+            except Exception:
+                print("** class doesn't exist **")
+                return
+            for obj in objs.keys():
+                if (parsed[0] == obj.split(".")[0]):
+                    cnt += 1
+            else:
+                print(cnt)
+
     def do_update(self, args):
         """Updates an instance based on the class name
         and id by adding or updating attribute (save the
@@ -126,7 +149,7 @@ class HBNBCommand(cmd.Cmd):
         if (args == ""):
             print("** class name missing **")
         else:
-            parsed = parse_args(args)
+            parsed = parse_args(args, '"')
             objs = models.storage.all()
             try:
                 eval(parsed[0] + ".__class__")
@@ -147,29 +170,92 @@ class HBNBCommand(cmd.Cmd):
                 print("** value missing **")
                 return
             exec("attr = got." + parsed[2] + " = " + parsed[3])
+            got.save()
 
     def precmd(self, line):
+        """executes before command"""
         if (len(sys.argv) > 1):
             HBNBCommand.prompt = "(hbnb)\n"
         return line
 
     def do_User(self, args):
-        print("yea" + args)
+        """performs commands on user"""
+        parsed = parse_args(args.strip('.'), '\\(', '\\)')
+        ext = ""
+        if len(parsed) > 1:
+            ext = extract_args(parsed[1])
+        eval("self.do_" + parsed[0] + '("User "' + ext + ')')
+
+    def do_State(self, args):
+        """performs commands on State"""
+        parsed = parse_args(args.strip('.'), '\\(', '\\)')
+        ext = ""
+        if len(parsed) > 1:
+            ext = extract_args(parsed[1])
+        eval("self.do_" + parsed[0] + '("State "' + ext + ')')
+
+    def do_City(self, args):
+        """performs commands on City"""
+        parsed = parse_args(args.strip('.'), '\\(', '\\)')
+        ext = ""
+        if len(parsed) > 1:
+            ext = extract_args(parsed[1])
+        eval("self.do_" + parsed[0] + '("City "' + ext + ')')
+
+    def do_Amenity(self, args):
+        """performs commands on Amenity"""
+        parsed = parse_args(args.strip('.'), '\\(', '\\)')
+        ext = ""
+        if len(parsed) > 1:
+            ext = extract_args(parsed[1])
+        eval("self.do_" + parsed[0] + '("Amenity "' + ext + ')')
+    def do_Review(self, args):
+        """performs commands on Review"""
+        parsed = parse_args(args.strip('.'), '\\(', '\\)')
+        ext = ""
+        if len(parsed) > 1:
+            ext = extract_args(parsed[1])
+        eval("self.do_" + parsed[0] + '("Review "' + ext + ')')
+
+    def do_Place(self, args):
+        """performs commands on Place"""
+        parsed = parse_args(args.strip('.'), '\\(', '\\)')
+        ext = ""
+        if len(parsed) > 1:
+            ext = extract_args(parsed[1])
+        eval("self.do_" + parsed[0] + '("Place "' + ext + ')')
+
+    def do_BaseModel(self, args):
+        """performs commands on BaseModel"""
+        parsed = parse_args(args.strip('.'), '\\(', '\\)')
+        ext = ""
+        if len(parsed) > 1:
+            ext = extract_args(parsed[1])
+        eval("self.do_" + parsed[0] + '("BaseModel "' + ext + ')')
 
 
-def parse_args(args):
+def parse_args(args, delmtr1='"', delmtr2='"'):
     """parse args to list of arguments"""
     ret = []
-    if '"' in args:
-        at = re.search('"(w*|.*)"', args)
-        found = args[at.start():]
-        remain = args[:at.start()]
-        ret = remain.split()
-        ret.append(found)
+    if delmtr1.strip('\\') in args:
+        search = delmtr1 + '(.*)' + delmtr2 + '$'
+        at = re.search(search, args)
+        if at is not None:
+            found = args[at.start():]
+            remain = args[:at.start()]
+            ret = remain.split()
+            ret.append(found)
+        else:
+            ret = args.split()
     else:
         ret = args.split()
     return ret
 
+def extract_args(args):
+    """parse args to list of arguments"""
+    args = args.lstrip('(')
+    args = args.rstrip(')')
+    return args
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
