@@ -31,7 +31,7 @@
 ```
 A good example is shown below:
 
- *** For an interactive mode ***
+  **For an interactive mode**
 ```shell
 $ ./console.py
 (hbnb) help
@@ -46,7 +46,7 @@ EOF  help  quit
 $
 ```
 
-*** For non-interaactive mode ***
+**For non-interaactive mode**
 ```shell
 $ echo "help" | ./console.py
 (hbnb)
