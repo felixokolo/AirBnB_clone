@@ -12,26 +12,23 @@ import models
 
 import re
 
+
 class HBNBCommand(cmd.Cmd):
     """Interpreter class"""
-    
-    prompt = "(hbnb)"
 
+    prompt = "(hbnb)"
 
     def do_EOF(self, args):
         """EOF quit command to exit the program"""
         return True
 
-
     def do_quit(self, args):
         """Quit command to exit the program"""
         return True
 
-
     def emptyline(self):
         """Do nothing on empty line"""
         pass
-
 
     def do_create(self, args):
         """Creates a new instance of BaseModel,
@@ -47,7 +44,6 @@ class HBNBCommand(cmd.Cmd):
             else:
                 new.save()
                 print(new.id)
-
 
     def do_show(self, args):
         """Prints the string representation of an
@@ -68,11 +64,10 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance id missing **")
                 return
             got = objs.get(parsed[0] + "." + parsed[1])
-            if (got == None):
+            if (got is None):
                 print("** no instance found **")
             else:
                 print(got)
-
 
     def do_destroy(self, args):
         """Deletes an instance based on the class name
@@ -80,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
         Ex: $ destroy BaseModel 1234-1234-1234."""
 
         if (args == ""):
-                print("** class name missing **")
+            print("** class name missing **")
         else:
             parsed = args.split()
             objs = models.storage.all()
@@ -93,7 +88,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance id missing **")
                 return
             got = objs.get(parsed[0] + "." + parsed[1])
-            if (got == None):
+            if (got is None):
                 print("** no instance found **")
             else:
                 objs.pop(parsed[0] + "." + parsed[1])
@@ -120,7 +115,6 @@ class HBNBCommand(cmd.Cmd):
                 if (parsed[0] == obj.split(".")[0]):
                     print(models.storage.all()[obj])
 
-
     def do_update(self, args):
         """Updates an instance based on the class name
         and id by adding or updating attribute (save the
@@ -129,10 +123,9 @@ class HBNBCommand(cmd.Cmd):
         """
 
         if (args == ""):
-                print("** class name missing **")
+            print("** class name missing **")
         else:
             parsed = parse_args(args)
-            print(parsed)
             objs = models.storage.all()
             try:
                 eval(parsed[0] + ".__class__")
@@ -143,7 +136,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance id missing **")
                 return
             got = objs.get(parsed[0] + "." + parsed[1])
-            if (got == None):
+            if (got is None):
                 print("** no instance found **")
                 return
             if (len(parsed) < 3):
@@ -159,7 +152,7 @@ def parse_args(args):
     """parse args to list of arguments"""
     ret = []
     if '"' in args:
-        at = re.search('"(\w*|.*)"', args)
+        at = re.search('"(w*|.*)"', args)
         found = args[at.start():]
         remain = args[:at.start()]
         ret = remain.split()
@@ -167,6 +160,7 @@ def parse_args(args):
     else:
         ret = args.split()
     return ret
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

@@ -3,12 +3,13 @@
 
 import uuid
 from datetime import datetime
-#storage = __import__('models.__init__').storage
 import models
+
 
 class BaseModel:
     """Base model class
     """
+
     def __init__(self, *args, **kwargs):
         """Base class init
         Attributes:
@@ -34,11 +35,10 @@ class BaseModel:
                     continue
                 exec("self." + k + " = v")
 
-    #@property
     def __str__(self):
         """prints dict of class"""
         return ("[{}] ({}) {}".format(type(self).__name__,
-            self.id, self.__dict__))
+                self.id, self.__dict__))
 
     def save(self):
         """ updates the public instance attribute updated_at with the

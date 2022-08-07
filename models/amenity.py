@@ -9,7 +9,7 @@ class Amenity (BaseModel):
     Attributes:
         name (str): Amenity  name
     """
-    
+
     name = ""
 
     def __init__(self, *args, **kwargs):
