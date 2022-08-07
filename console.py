@@ -11,6 +11,7 @@ from models.review import Review
 import models
 
 import re
+import sys
 
 
 class HBNBCommand(cmd.Cmd):
@@ -146,6 +147,14 @@ class HBNBCommand(cmd.Cmd):
                 print("** value missing **")
                 return
             exec("attr = got." + parsed[2] + " = " + parsed[3])
+
+    def precmd(self, line):
+        if (len(sys.argv) > 1):
+            HBNBCommand.prompt = "(hbnb)\n"
+        return line
+
+    def do_User(self, args):
+        print("yea" + args)
 
 
 def parse_args(args):
