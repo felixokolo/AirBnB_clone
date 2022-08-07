@@ -209,6 +209,7 @@ class HBNBCommand(cmd.Cmd):
         if len(parsed) > 1:
             ext = extract_args(parsed[1])
         eval("self.do_" + parsed[0] + '("Amenity "' + ext + ')')
+
     def do_Review(self, args):
         """performs commands on Review"""
         parsed = parse_args(args.strip('.'), '\\(', '\\)')
@@ -251,11 +252,13 @@ def parse_args(args, delmtr1='"', delmtr2='"'):
         ret = args.split()
     return ret
 
+
 def extract_args(args):
     """parse args to list of arguments"""
     args = args.lstrip('(')
     args = args.rstrip(')')
     return args
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
