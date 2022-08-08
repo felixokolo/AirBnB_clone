@@ -56,6 +56,9 @@ class BaseModel:
         ret['__class__'] = type(self).__name__
         return ret
 
+
+print("OK")
+
 # if __name__ == "__main__":
     # new = BaseModel()
     # print(new)
