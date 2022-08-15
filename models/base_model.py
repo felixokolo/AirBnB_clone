@@ -8,17 +8,22 @@ import models
 
 class BaseModel:
     """Base model class
+
+    Attributes:
+        id (str): unique id assigned when instance is created
+        created_at (datetime): assign with the current datetime
+        when an instance is created
+        updated_at (datetime): assign with the current datetime
+        when an instance is created and it will be updated every
+        time you change your object
     """
 
     def __init__(self, *args, **kwargs):
         """Base class init
-        Attributes:
-            id (str): unique id assigned when instance is created
-            created_at (datetime): assign with the current datetime
-            when an instance is created
-            updated_at (datetime): assign with the current datetime
-            when an instance is created and it will be updated every
-            time you change your object
+
+        Args:
+            args (list): list of untagged arguments
+            kwargs (dict): list of tagged arguments
         """
         if (kwargs == {}):
             self.id = str(uuid.uuid4())
@@ -42,7 +47,8 @@ class BaseModel:
 
     def save(self):
         """ updates the public instance attribute updated_at with the
-        current datetime"""
+        current datetime
+        """
         self.updated_at = datetime.now()
         models.storage.save()
 
