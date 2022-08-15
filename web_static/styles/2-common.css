@@ -1,0 +1,10 @@
+body {
+	boarder: 0;
+	margin: 0;
+	padding: 0;
+	}
+p {
+	position:fixed;
+	text-align:center;
+	width: 100%;
+	}
