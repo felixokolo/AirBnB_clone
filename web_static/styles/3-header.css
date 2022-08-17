@@ -4,8 +4,11 @@ header {
 	height:70px;
 	width:100%;
 	}
-div {
+.logo {
 	margin-left: 20px;
 	text-align: center;
-	background: #b2b2b2 url("images/logo.png") 20px 10px no-repeat;
+	width: auto;
+	height: 70px;
+	background-image: url("../images/logo.png");
+	background-repeat:no-repeat;
 	}
